@@ -243,12 +243,15 @@ class Flagbit_MEP_Model_Rule extends Mage_CatalogRule_Model_Rule
                         $arr = array();
                         $catIdSelected = explode(",", $data[$key][$id]['value']);
                         foreach ($catIdSelected as $k => $catId) {
-                            $arr[] = $catId;
+                            $arr[] = trim($catId);
                             /* Load category by id*/
                             $cat = Mage::getModel('catalog/category')->load($catId);
                             /* Returns comma separated ids */
                             $subcats = $cat->getChildren();
-                            $arr[] = $subcats;
+                            if (strlen($subcats > 0)) {
+                                $arr[] = $subcats;
+                            }
+
                         }
                         $data[$key][$id]['value'] = implode(',', $arr);
                     }
